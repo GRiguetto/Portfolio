@@ -9,8 +9,8 @@ const DADOS = {
   projetos: [
     { nome: "Controle de Plantões", ano: "2026", resumo: "Gestão de plantões de servidores com três visões (funcionário, gerente e administrador), controle de acesso por perfil, dashboards e relatórios.", stack: ["PHP", "MySQL", "JavaScript"], link: "" },
     { nome: "Movimentação de Servidores", ano: "2026", resumo: "Sistema web para solicitar transferências de servidores entre unidades de saúde.", stack: ["HTML", "CSS", "JavaScript"], link: "" },
-    { nome: "Afinador de Violão Acessível", ano: "2026", resumo: "Aplicação web feita para pessoas com deficiência visual parcial ou total afinarem o violão. [Em Desenvolvimento]", stack: ["Java", "Spring Boot"], link: "" },
-    { nome: "AR Ecológico", ano: "2026", resumo: "ERP web com arquitetura multipágina. [Em Desenvolvimento]", stack: ["Spring Boot", "Bootstrap"], link: "" }
+    { nome: "Afinador de Violão Acessível", ano: "2026", resumo: "Aplicação web feita para pessoas com deficiência visual parcial ou total afinarem o violão.", stack: ["Java", "Spring Boot"], link: "" },
+    { nome: "AR Ecológico", ano: "2026", resumo: "ERP web com arquitetura multipágina.", stack: ["Spring Boot", "Bootstrap"], link: "" }
   ],
 
   // nível de 1 a 5
@@ -28,6 +28,6 @@ const DADOS = {
     email: "gabrielriguetto3@email.com",
     links: [["GitHub", "https://github.com/GRiguetto"], ["LinkedIn", "https://linkedin.com/in/gabriel-fernandes-riguetto-5266b3351"]]
   },
-  sussurros: ["Ph'nglui mglw'nafh Cthulhu", "Iä! Shub-Niggurath!", "Y'bthnk... h'ehye—n'grkdl'lh...", "Ogthrod ai'f geb'l-ee'h Yog-Sothoth", "ph'nglui mglw'nafh"],
+  sussurros: ["Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn", "Iä! Shub-Niggurath!", "Y'bthnk... h'ehye—n'grkdl'lh...", "Ogthrod ai'f geb'l-ee'h Yog-Sothoth 'ngah'ng ai'y zhro", "ph'nglui mglw'nafh"],
   rodape: "Em sua casa em R'lyeh, o morto Cthulhu aguarda sonhando."
 };

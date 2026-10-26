@@ -8,7 +8,7 @@
    D = DADOS,
    root = document.documentElement;
  
- // el('p', 'classe', 'texto')
+ // Cria um elemento: el('p', 'classe', 'texto')
  const el = (t, c, x) => {
    const e = document.createElement(t);
    if (c) e.className = c;
@@ -16,7 +16,7 @@
    return e;
  };
  
- // título (h2) + conteúdo + sussurro escondido
+ // Monta uma seção: título (h2) + conteúdo + sussurro escondido
  const sec = (id, t, body, i) => {
    const s = el('section');
    s.id = id;
@@ -48,7 +48,7 @@
  
  
  /* ==========================================================
-    SEÇÃO: ARQUIVOS 
+    SEÇÃO: ARQUIVOS (projetos que abrem ao clicar)
     ========================================================== */
  const lp = el('div');
  
@@ -169,15 +169,17 @@
  
  /* ==========================================================
     LANTERNA
-    A luz segue o cursor e revela os sussurros escondidos.
-    mx e my guardam a posição do cursor (os esporos também usam)
+    Com a luz apagada, a lanterna segue o cursor (ou o dedo, no celular)
+    e revela os sussurros escondidos.
+    mx e my guardam a posição da luz (os esporos também usam)
     ========================================================== */
  let mx = innerWidth / 2,
    my = innerHeight / 2;
  
- addEventListener('pointermove', e => {
-   mx = e.clientX;
-   my = e.clientY;
+ // Move a luz para a posição (x, y)
+ const mover = (x, y) => {
+   mx = x;
+   my = y;
    root.style.setProperty('--x', mx + 'px');
    root.style.setProperty('--y', my + 'px');
  
@@ -189,7 +191,41 @@
        Math.hypot(r.left + r.width / 2 - mx, r.top + r.height / 2 - my) < 200
      );
    });
- });
+ };
+ 
+ // Mouse e toque (no celular a luz segue o dedo)
+ addEventListener('pointermove', e => mover(e.clientX, e.clientY));
+ addEventListener('touchstart', e => mover(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+ addEventListener('touchmove', e => mover(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+ 
+ 
+ /* ==========================================================
+    MODO LANTERNA
+    A página começa com a luz acesa. Puxar a cordinha (canto
+    superior direito) apaga a luz e liga a lanterna; puxar de
+    novo acende. A classe "escuro" no <body> comanda o CSS.
+    ========================================================== */
+ let escuro = false;
+ 
+ const corda = el('button');
+ corda.id = 'corda';
+ corda.setAttribute('aria-pressed', 'false');
+ corda.setAttribute('aria-label', 'Apagar a luz');
+ corda.append(el('i'), el('span', '', 'puxe'));
+ document.body.append(corda);
+ 
+ corda.onclick = () => {
+   escuro = !escuro;
+   document.body.classList.toggle('escuro', escuro);
+   corda.setAttribute('aria-pressed', escuro);
+   corda.setAttribute('aria-label', escuro ? 'Acender a luz' : 'Apagar a luz');
+   $('#corda span').textContent = escuro ? 'acenda' : 'puxe';
+ 
+   // Reinicia a animação de puxar a corda
+   corda.classList.remove('puxou');
+   void corda.offsetWidth;
+   corda.classList.add('puxou');
+ };
  
  
  /* ==========================================================
@@ -249,15 +285,15 @@
      p.y -= p.v;
      p.x += Math.sin(p.y / 60) * .15;
  
-     // Saiu pelo topo, Volta por baixo
+     // Saiu pelo topo? Volta por baixo
      if (p.y < -5) {
        p.y = H + 5;
        p.x = Math.random() * W;
      }
  
-     // Brilha mais quando está a menos de 200px do cursor
+     // Com a luz apagada, brilha mais a menos de 200px do cursor
      const d = Math.hypot(p.x - mx, p.y - my);
-     g.fillStyle = `rgba(216,208,191,${d < 200 ? p.o + .4 : p.o * .5})`;
+     g.fillStyle = `rgba(216,208,191,${escuro && d < 200 ? p.o + .4 : p.o * .5})`;
      g.beginPath();
      g.arc(p.x, p.y, p.r, 0, 7);
      g.fill();

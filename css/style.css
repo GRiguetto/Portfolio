@@ -85,6 +85,8 @@
     inset: 0;
     z-index: 5;
     pointer-events: none;
+    opacity: 0; /* luz acesa: sem escuro por cima */
+    transition: opacity .25s;
     background: radial-gradient(
       circle 260px at var(--x) var(--y), /* 260px = tamanho da luz */
       transparent 0,
@@ -93,10 +95,89 @@
     );
   }
   
-  /* Sem mouse (celular), a lanterna some */
-  @media (hover: none) {
-    #luz {
-      display: none;
+  /* ----- MODO LANTERNA -----
+     A página começa com a luz acesa. Ao puxar a cordinha,
+     a classe "escuro" entra no <body> e o escuro cobre tudo. */
+  .escuro #luz {
+    opacity: 1;
+    animation: apagar .9s steps(1); /* piscadas antes de apagar */
+  }
+  
+  @keyframes apagar {
+    0%  { opacity: 0; }
+    12% { opacity: .85; }
+    24% { opacity: .15; }
+    38% { opacity: .9; }
+    50% { opacity: .35; }
+    64% { opacity: 1; }
+  }
+  
+  /* Cordinha do interruptor (canto superior direito) */
+  #corda {
+    all: unset;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    right: clamp(1rem, 5vw, 4.5rem);
+    z-index: 8;
+    width: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    font: italic .95rem "IM Fell English", Georgia, serif;
+    color: var(--lua);
+  }
+  
+  #corda:focus-visible {
+    outline: 2px solid var(--lua);
+    outline-offset: 3px;
+  }
+  
+  #corda i {
+    display: block;
+    position: relative;
+    width: 1px;
+    height: 70px;
+    background: var(--lua);
+  }
+  
+  /* Puxador em losango */
+  #corda i::after {
+    content: "";
+    position: absolute;
+    left: -6px;
+    bottom: -12px;
+    width: 12px;
+    height: 12px;
+    background: var(--sangue);
+    box-shadow: 0 0 14px var(--sangue);
+    transform: rotate(45deg);
+  }
+  
+  #corda span {
+    margin-top: 22px;
+  }
+  
+  /* A corda estica e volta quando é puxada */
+  #corda.puxou i {
+    animation: puxar .5s;
+  }
+  
+  @keyframes puxar {
+    30% { height: 96px; }
+    60% { height: 66px; }
+  }
+  
+  /* No escuro, o puxador pulsa como uma brasa */
+  .escuro #corda i::after {
+    animation: brasa 3s ease-in-out infinite;
+  }
+  
+  @keyframes brasa {
+    50% {
+      box-shadow: 0 0 30px var(--sangue);
+      opacity: .6;
     }
   }
   
@@ -189,7 +270,7 @@
     margin-top: 1rem;
   }
   
-  /* Sussurros escondidos: só aparecem perto da lanterna */
+  /* Sussurros escondidos: só existem com a luz apagada e aparecem perto da lanterna */
   .sus {
     position: absolute;
     right: 6vw;
@@ -197,13 +278,17 @@
     font-style: italic;
     font-size: 1.6rem;
     color: var(--sangue);
-    opacity: .07;
+    opacity: 0;
     transform: rotate(-3deg);
     transition: opacity .6s, text-shadow .6s;
     pointer-events: none;
   }
   
-  .sus.on {
+  .escuro .sus {
+    opacity: .07;
+  }
+  
+  .escuro .sus.on {
     opacity: 1;
     text-shadow: 0 0 18px var(--sangue);
   }

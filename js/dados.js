@@ -25,7 +25,7 @@ const DADOS = {
   ],
   contato: {
     texto: "Tem um projeto, uma vaga ou um bug que ninguém explica? Escreva.",
-    email: "gabrielriguetto3@email.com",
+    email: "gabrielriguetto3@gmail.com",
     links: [["GitHub", "https://github.com/GRiguetto"], ["LinkedIn", "https://linkedin.com/in/gabriel-fernandes-riguetto-5266b3351"]]
   },
   sussurros: ["Ph'nglui mglw'nafh Cthulhu", "Iä! Shub-Niggurath!", "Y'bthnk... h'ehye—n'grkdl'lh...", "Ogthrod ai'f geb'l-ee'h Yog-Sothoth", "ph'nglui mglw'nafh"],

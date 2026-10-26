@@ -9,8 +9,8 @@ const DADOS = {
   projetos: [
     { nome: "Controle de Plantões", ano: "2026", resumo: "Gestão de plantões de servidores com três visões (funcionário, gerente e administrador), controle de acesso por perfil, dashboards e relatórios.", stack: ["PHP", "MySQL", "JavaScript"], link: "" },
     { nome: "Movimentação de Servidores", ano: "2026", resumo: "Sistema web para solicitar transferências de servidores entre unidades de saúde.", stack: ["HTML", "CSS", "JavaScript"], link: "" },
-    { nome: "Afinador de Violão Acessível", ano: "2026", resumo: "Aplicação web feita para pessoas com deficiência visual parcial ou total afinarem o violão.", stack: ["Java", "Spring Boot"], link: "" },
-    { nome: "AR Ecológico", ano: "2026", resumo: "ERP web com arquitetura multipágina.", stack: ["Spring Boot", "Bootstrap"], link: "" }
+    { nome: "Afinador de Violão Acessível", ano: "2026", resumo: "Aplicação web feita para pessoas com deficiência visual parcial ou total afinarem o violão. [Em Desenvolvimento]", stack: ["Java", "Spring Boot"], link: "" },
+    { nome: "AR Ecológico", ano: "2026", resumo: "ERP web com arquitetura multipágina. [Em Desenvolvimento]", stack: ["Spring Boot", "Bootstrap"], link: "" }
   ],
 
   // nível de 1 a 5

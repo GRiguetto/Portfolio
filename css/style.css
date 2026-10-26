@@ -1,0 +1,480 @@
+/* ==========================================================
+   VARIÁVEIS
+   Cores do tema. Mude aqui e o site inteiro acompanha.
+   ========================================================== */
+   :root {
+    --abismo: #060509; /* fundo */
+    --osso: #d8d0bf;   /* texto */
+    --sangue: #8c1d2b; /* destaque (vermelho) */
+    --lua: #9a93c4;    /* destaque secundário (roxo-lua) */
+    --mofo: #1b1a22;   /* linhas e bordas discretas */
+  
+    /* Controladas pelo JavaScript, não precisa mexer */
+    --x: 50vw; /* posição X da lanterna */
+    --y: 40vh; /* posição Y da lanterna */
+    --ins: 0;  /* insanidade (0 a 1), aumenta ao rolar a página */
+  }
+  
+  
+  /* ==========================================================
+     BASE
+     ========================================================== */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    background: var(--abismo);
+  }
+  
+  body {
+    color: var(--osso);
+    font: 1.15rem/1.75 "IM Fell English", Georgia, serif;
+    overflow-x: hidden;
+  }
+  
+  header,
+  main,
+  footer {
+    position: relative;
+    z-index: 1;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    font-family: "Pirata One", "IM Fell English", serif;
+    font-weight: 400;
+    line-height: .95;
+  }
+  
+  :focus-visible {
+    outline: 2px solid var(--lua);
+    outline-offset: 3px;
+  }
+  
+  
+  /* ==========================================================
+     ATMOSFERA
+     Grão de filme, esporos (canvas) e lanterna
+     ========================================================== */
+  
+  /* Grão de filme sobre a página inteira */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 6;
+    opacity: .09;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  
+  /* Esporos flutuando (desenhados pelo main.js) */
+  #po {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  /* Lanterna: escurece tudo, menos em volta do cursor */
+  #luz {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: radial-gradient(
+      circle 260px at var(--x) var(--y), /* 260px = tamanho da luz */
+      transparent 0,
+      rgba(6, 5, 9, .5) 55%,
+      rgba(6, 5, 9, .93) 100%
+    );
+  }
+  
+  /* Sem mouse (celular), a lanterna some */
+  @media (hover: none) {
+    #luz {
+      display: none;
+    }
+  }
+  
+  
+  /* ==========================================================
+     HERO (topo da página)
+     ========================================================== */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 clamp(1.2rem, 6vw, 6rem) 9vh;
+  }
+  
+  h1 {
+    font-size: clamp(4.5rem, 20vw, 16rem);
+    /* Aberração cromática: cresce com a insanidade */
+    text-shadow:
+      calc(var(--ins) * 4px) 0 #8c1d2bcc,
+      calc(var(--ins) * -4px) 0 #9a93c499;
+    animation: emerge 3s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  
+  /* Nome surgindo da escuridão */
+  @keyframes emerge {
+    from {
+      opacity: 0;
+      filter: blur(22px);
+      letter-spacing: .25em;
+      transform: scale(1.06);
+    }
+  }
+  
+  #h-papel {
+    font-style: italic;
+    color: var(--lua);
+    font-size: 1.3rem;
+  }
+  
+  #h-frase {
+    max-width: 34rem;
+    margin: 1.5rem 0 2rem;
+  }
+  
+  
+  /* ==========================================================
+     BOTÕES
+     ========================================================== */
+  .btn {
+    display: inline-block;
+    align-self: flex-start;
+    padding: .8rem 1.6rem;
+    border: 1px solid var(--sangue);
+    color: var(--osso);
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .3s, box-shadow .3s;
+  }
+  
+  .btn:hover {
+    background: var(--sangue);
+    box-shadow: 0 0 40px #8c1d2b88;
+  }
+  
+  
+  /* ==========================================================
+     SEÇÕES (layout geral)
+     Título fixo à esquerda, conteúdo à direita
+     ========================================================== */
+  section {
+    display: grid;
+    grid-template-columns: minmax(0, 15rem) minmax(0, 42rem);
+    gap: 3rem;
+    padding: 12vh clamp(1.2rem, 6vw, 6rem);
+    position: relative;
+    border-top: 1px solid var(--mofo);
+  }
+  
+  h2 {
+    font-size: 3rem;
+    position: sticky;
+    top: 3rem;
+    align-self: start;
+  }
+  
+  section p + p {
+    margin-top: 1rem;
+  }
+  
+  /* Sussurros escondidos: só aparecem perto da lanterna */
+  .sus {
+    position: absolute;
+    right: 6vw;
+    bottom: 5vh;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--sangue);
+    opacity: .07;
+    transform: rotate(-3deg);
+    transition: opacity .6s, text-shadow .6s;
+    pointer-events: none;
+  }
+  
+  .sus.on {
+    opacity: 1;
+    text-shadow: 0 0 18px var(--sangue);
+  }
+  
+  
+  /* ==========================================================
+     ARQUIVOS (projetos que abrem ao clicar)
+     ========================================================== */
+  .arq {
+    border-left: 2px solid var(--mofo);
+    transition: border-color .4s;
+  }
+  
+  .arq.aberto,
+  .arq:hover {
+    border-color: var(--sangue);
+  }
+  
+  .arq button {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    font: 400 2rem/1.1 "Pirata One", serif;
+  }
+  
+  .arq button:focus-visible {
+    outline: 2px solid var(--lua);
+  }
+  
+  .arq small {
+    font: italic 1rem "IM Fell English", serif;
+    color: var(--lua);
+  }
+  
+  /* Animação de abrir/fechar (altura de 0 a 100%) */
+  .corpo {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .5s;
+  }
+  
+  .arq.aberto .corpo {
+    grid-template-rows: 1fr;
+  }
+  
+  .in {
+    overflow: hidden;
+    padding: 0 1.2rem;
+  }
+  
+  .arq.aberto .in {
+    padding-bottom: 1.4rem;
+  }
+  
+  /* Etiquetas de tecnologia */
+  .selos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  
+  .selos li {
+    border: 1px solid var(--lua);
+    padding: .1rem .7rem;
+    font-size: .95rem;
+    color: var(--lua);
+  }
+  
+  .lnk {
+    color: var(--osso);
+    text-decoration-color: var(--sangue);
+    text-underline-offset: 4px;
+    margin-right: 1.5rem;
+  }
+  
+  
+  /* ==========================================================
+     BESTIÁRIO (habilidades)
+     A barrinha vermelha usa --v (nível de 1 a 5, vem do JS)
+     ========================================================== */
+  .bes {
+    display: grid;
+    gap: 2.2rem;
+  }
+  
+  .bes h3 {
+    font-size: 1.8rem;
+    margin-bottom: .8rem;
+  }
+  
+  .bes ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 1rem 1.5rem;
+  }
+  
+  .bes li::after {
+    content: "";
+    display: block;
+    height: 3px;
+    margin-top: .3rem;
+    background: linear-gradient(
+      90deg,
+      var(--sangue) calc(var(--v) * 20%),
+      var(--mofo) 0
+    );
+  }
+  
+  
+  /* ==========================================================
+     DIÁRIO (trajetória / linha do tempo)
+     ========================================================== */
+  .tl {
+    list-style: none;
+    padding: 0 0 0 1.6rem;
+    border-left: 1px solid var(--sangue);
+  }
+  
+  .tl li {
+    position: relative;
+    padding-bottom: 2.2rem;
+  }
+  
+  /* Losango de cada item */
+  .tl li::before {
+    content: "";
+    position: absolute;
+    left: calc(-1.6rem - 5px);
+    top: .6rem;
+    width: 9px;
+    height: 9px;
+    background: var(--sangue);
+    transform: rotate(45deg);
+  }
+  
+  .tl time {
+    color: var(--lua);
+    font-style: italic;
+  }
+  
+  .tl h3 {
+    font-size: 1.7rem;
+    margin: .2rem 0 .4rem;
+  }
+  
+  
+  /* ==========================================================
+     INVOCAÇÃO (formulário de contato)
+     ========================================================== */
+  .inv {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .inv label {
+    display: grid;
+    gap: .3rem;
+    color: var(--lua);
+  }
+  
+  .inv input,
+  .inv textarea {
+    background: #0d0c12;
+    border: 1px solid var(--mofo);
+    color: var(--osso);
+    font: inherit;
+    padding: .7rem;
+  }
+  
+  .inv input:focus,
+  .inv textarea:focus {
+    border-color: var(--sangue);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--sangue);
+  }
+  
+  
+  /* ==========================================================
+     MEDIDOR DE SANIDADE (barra fixa na lateral)
+     ========================================================== */
+  #san {
+    position: fixed;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 7;
+    display: grid;
+    justify-items: center;
+    gap: .6rem;
+    font: 1rem "Pirata One", serif;
+    color: var(--lua);
+  }
+  
+  #san i {
+    display: block;
+    width: 3px;
+    height: 30vh;
+    background: var(--mofo);
+    position: relative;
+  }
+  
+  /* Preenchimento vermelho (altura controlada pelo JS via --p) */
+  #san i::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: var(--p, 100%);
+    background: var(--sangue);
+    box-shadow: 0 0 12px var(--sangue);
+  }
+  
+  /* Perto do fim da página, os títulos tremem */
+  .treme h2 {
+    animation: tr .25s steps(2) infinite;
+  }
+  
+  @keyframes tr {
+    50% {
+      transform: translate(2px, -1px);
+      text-shadow: -3px 0 var(--sangue);
+    }
+  }
+  
+  
+  /* ==========================================================
+     RODAPÉ
+     ========================================================== */
+  footer {
+    padding: 6rem clamp(1.2rem, 6vw, 6rem) 4rem;
+    color: var(--lua);
+    font-style: italic;
+  }
+  
+  
+  /* ==========================================================
+     RESPONSIVO E ACESSIBILIDADE
+     ========================================================== */
+  
+  /* Celular: uma coluna, título não fica fixo, sem medidor */
+  @media (max-width: 760px) {
+    section {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  
+    h2 {
+      position: static;
+    }
+  
+    #san {
+      display: none;
+    }
+  }
+  
+  /* Quem pediu menos movimento no sistema: desliga animações */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto;
+    }
+  }

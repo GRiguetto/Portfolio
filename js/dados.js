@@ -7,7 +7,7 @@ const DADOS = {
     "Na faculdade, estudo Java, Estruturas de Dados, SQL Server e UX/UI. Meus projetos acadêmicos vão desde a criação de um ERP para uma empresa real até o desenvolvimento de um afinador de violão acessível para pessoas com deficiência visual."
   ],
   projetos: [
-    { nome: "ROOM 237", ano: "2026", resumo: "Projeto de front web, feito de quem gosta de cinema para quem gosta de cinema, ultiliza da API do The Movie Database (TMDB) para que voce consia buscar um filme ou ate te indicar um filme com base noque voce busca!", stack: ["HTML", "CSS", "JavaScript"], link: "https://griguetto.github.io/Room_237/" },
+    { nome: "ROOM 237", ano: "2026", resumo: "Um projeto web feito de fã para fã de cinema. Usando a API do The Movie Database (TMDB), você consegue buscar filmes específicos ou receber recomendações com base no que quer assistir.", stack: ["HTML", "CSS", "JavaScript"], link: "https://griguetto.github.io/Room_237/" },
     { nome: "Controle de Plantões", ano: "2026", resumo: "Gestão de plantões de servidores com três visões (funcionário, gerente e administrador), controle de acesso por perfil, dashboards e relatórios.", stack: ["PHP", "MySQL", "JavaScript"], link: "" },
     { nome: "Movimentação de Servidores", ano: "2026", resumo: "Sistema web para solicitar transferências de servidores entre unidades de saúde.", stack: ["HTML", "CSS", "JavaScript"], link: "" },
     { nome: "Afinador de Violão Acessível", ano: "2026", resumo: "Aplicação web feita para pessoas com deficiência visual parcial ou total afinarem o violão. [Em Desenvolvimento]", stack: ["Java", "Spring Boot"], link: "" },
